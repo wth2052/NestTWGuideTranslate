@@ -1,14 +1,10 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Patch, HttpCode, HttpStatus } from '@nestjs/common';
 
 @Controller('todos')
 export class TodoController {
-  @Get(':id')
-  get(@Param() params: { id: string }) {
-    const { id } = params;
-    return {
-      id,
-      title: `Title ${id}`,
-      description: '',
-    };
+  @Patch()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  get() {
+    return [];
   }
 }
