@@ -16,7 +16,6 @@ export class TodoService {
   }
 
   createTodo(item: { id: number, title: string, description: string }) {
-    //얘는 잘 늘고 있는데..?
     console.log(this.todos);
     this.todos.push(item);
   }

@@ -1,16 +1,17 @@
-import { Controller, Get } from '@nestjs/common';
-import { TodoService } from './todo.service';
+import { Body, Controller, Param, Patch, UsePipes, ValidationPipe } from '@nestjs/common';
+import { UpdateTodoDto } from './dto/update-todo.dto';
 
 @Controller('todos')
 export class TodoController {
-
-  constructor(
-    private readonly todoService: TodoService
-  ) {}
-
-  @Get()
-  getAll() {
-    return this.todoService.getTodos();
+  @Patch(':id')
+  @UsePipes(ValidationPipe)
+  update(
+    @Param('id') id: number,
+    @Body() dto: UpdateTodoDto
+  ) {
+    return {
+      id,
+      ...dto
+    };
   }
-
 }
