@@ -1,15 +1,16 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
-import { CustomException } from './exceptions/custom.exception';
+import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Auth } from './decorators/auth/auth.decorator';
+import { Roles } from './decorators/roles/roles.decorator';
+import { User } from './decorators/user/user.decorator';
+import { RoleGuard } from './guards/role/role.guard';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {
-  }
+  constructor() {}
 
+  @Auth('staff')
   @Get()
-  getHello(): string {
-    throw new CustomException();
-    return this.appService.getHello();
+  getHello(@User('name') name: string): string {
+    return name;
   }
 }
