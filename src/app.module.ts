@@ -1,16 +1,20 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AddUserMiddleware } from './middlewares/add-user/add-user.middleware';
+import { ConfigurationModule } from './common/configuration/configuration.module';
+
 @Module({
-  imports: [],
-  controllers: [AppController],
+  imports: [
+    ConfigurationModule.forRoot({
+      path: `../${process.env.NODE_ENV || 'development'}.env`
+    })
+  ],
+  controllers: [
+    AppController
+  ],
   providers: [
     AppService
   ]
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AddUserMiddleware).forRoutes('');
-  }
+export class AppModule {
 }
