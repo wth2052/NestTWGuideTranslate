@@ -18,7 +18,7 @@ export class ConfigurationModule {
         ConfigurationService
       ],
       module: ConfigurationModule,
-      global: true
+      global: false
     };
   }
 

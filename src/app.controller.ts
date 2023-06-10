@@ -1,15 +1,17 @@
 import { Controller, Get } from '@nestjs/common';
-import { ConfigurationService } from './common/configuration/configuration.service';
+import { ConfigService } from '@nestjs/config';
 
 @Controller()
 export class AppController {
   constructor(
-    private readonly configService: ConfigurationService
+    private readonly configService: ConfigService
   ) {
   }
 
   @Get()
   getHello() {
-    return { username: this.configService.get('USERNAME') };
+    const app_domain = this.configService.get('APP_DOMAIN');
+    const redirect_url = this.configService.get('APP_REDIRECT_URL');
+    return { app_domain, redirect_url };
   }
 }
