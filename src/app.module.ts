@@ -1,21 +1,19 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { Module, Scope } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { StorageModule } from './common/storage/storage.module';
+import { BookModule } from './common/book/book.module';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      envFilePath: ['development.local.env', 'development.env'],
-      expandVariables: true // 開啟環境變數檔變數嵌入功能
-    })
-  ],
-  controllers: [
-    AppController
-  ],
+  imports: [StorageModule, BookModule],
+  controllers: [AppController],
   providers: [
-    AppService
-  ]
+    AppService,
+    {
+      provide: 'USERNAME',
+      useValue: 'WOO',
+      scope: Scope.REQUEST, // scope 속성 추가
+    },
+  ],
 })
-export class AppModule {
-}
+export class AppModule {}

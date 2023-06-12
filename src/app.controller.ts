@@ -1,17 +1,22 @@
 import { Controller, Get } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
   constructor(
-    private readonly configService: ConfigService
+    private readonly appService: AppService
   ) {
+    this.appService.addBookToStorage({ name: 'Nest Tutorial' });
+    this.appService.addBookToBookStorage({ name: 'Angular Tutorial' });
+    console.log(`AppController: ${Math.random()}`);
   }
 
-  @Get()
-  getHello() {
-    const app_domain = this.configService.get('APP_DOMAIN');
-    const redirect_url = this.configService.get('APP_REDIRECT_URL');
-    return { app_domain, redirect_url };
+  @Get('/compare')
+  getCompare() {
+    return {
+      storage: this.appService.getStorageList(),
+      books: this.appService.getBookList()
+    };
   }
+
 }
