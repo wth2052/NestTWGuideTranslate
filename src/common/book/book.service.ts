@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Scope } from '@nestjs/common';
 import { StorageService } from '../storage/storage.service';
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class BookService {
 
 	constructor(
