@@ -1,31 +1,8 @@
-import { Injectable } from '@nestjs/common';
-import { BookService } from './common/book/book.service';
-import { StorageService } from './common/storage/storage.service';
+import { Injectable, Scope } from '@nestjs/common';
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class AppService {
-
-  constructor(
-    private readonly bookService: BookService,
-    private readonly storage: StorageService
-  ) {
-    console.log(`AppService: ${Math.random()}`);
+  getHello(): string {
+    return 'Hello World!';
   }
-
-  public addBookToStorage(book: any): void {
-    this.storage.addItem(book);
-  }
-
-  public addBookToBookStorage(book: any): void {
-    this.bookService.addBook(book);
-  }
-
-  public getStorageList(): any[] {
-    return this.storage.getItems();
-  }
-
-  public getBookList(): any[] {
-    return this.bookService.getBooks();
-  }
-
 }

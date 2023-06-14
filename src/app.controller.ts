@@ -1,22 +1,26 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Inject } from '@nestjs/common';
+import { ContextIdFactory, ModuleRef, REQUEST } from '@nestjs/core';
+
+import { Request } from 'express';
+
 import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
   constructor(
-    private readonly appService: AppService
-  ) {
-    this.appService.addBookToStorage({ name: 'Nest Tutorial' });
-    this.appService.addBookToBookStorage({ name: 'Angular Tutorial' });
-    console.log(`AppController: ${Math.random()}`);
-  }
+    private readonly moduleRef: ModuleRef,
+    @Inject(REQUEST) private readonly request: Request
+  ) {}
 
-  @Get('/compare')
-  getCompare() {
-    return {
-      storage: this.appService.getStorageList(),
-      books: this.appService.getBookList()
-    };
+  @Get()
+  async getTruth() {
+    const identifier = ContextIdFactory.getByRequest(this.request);
+    const [instance1, instance2] = await Promise.all([
+      this.moduleRef.resolve(AppService, identifier),
+      this.moduleRef.resolve(AppService, identifier)
+    ]);
+
+    return instance1 === instance2;
   }
 
 }

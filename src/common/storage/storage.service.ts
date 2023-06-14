@@ -1,20 +1,16 @@
-import { Injectable, Scope } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
-@Injectable({ scope: Scope.TRANSIENT })
+@Injectable()
 export class StorageService {
-
-	constructor() {
-		console.log(`Storage: ${Math.random()}`);
-	}
 
 	private list: any[] = [];
 
-	public getItems(): any[] {
-		return this.list;
+	public addData(data: any): void {
+		this.list.push(data);
 	}
 
-	public addItem(item: any): void {
-		this.list.push(item);
+	public getList(): any[] {
+		return this.list;
 	}
 
 }
