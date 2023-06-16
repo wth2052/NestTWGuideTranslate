@@ -1,21 +1,20 @@
-import { Module, OnApplicationShutdown } from '@nestjs/common';
+import { Module } from '@nestjs/common';
+import { MulterModule } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import {StorageModule} from './common/storage/storage.module';
+import { MulterHelper } from './core/helper/multer.helper';
 
 @Module({
   imports: [
-    StorageModule
+    MulterModule.register({
+      storage: diskStorage({
+        destination: MulterHelper.destination,
+        filename: MulterHelper.filenameHandler,
+      }),
+    }),
   ],
-  controllers: [
-    AppController
-  ],
-  providers: [
-    AppService
-  ]
+  controllers: [AppController],
+  providers: [AppService],
 })
-export class AppModule implements OnApplicationShutdown {
-  onApplicationShutdown(): void {
-    console.log('[AppModule]: shutdown event!');
-  }
-}
+export class AppModule {}

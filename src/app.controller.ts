@@ -4,13 +4,13 @@ import {
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { AnyFilesInterceptor } from '@nestjs/platform-express';
 
 @Controller()
 export class AppController {
   @Post('/multiple')
-  @UseInterceptors(FileInterceptor('files'))
-  uploadSingleFile(@UploadedFiles() files: Express.Multer.File[]) {
+  @UseInterceptors(AnyFilesInterceptor())
+  uploadMultipleFiles(@UploadedFiles() files: Express.Multer.File[]) {
     return files.map(({ fieldname, originalname }) => ({
       fieldname,
       originalname,
