@@ -1,8 +1,21 @@
-import { Injectable, Scope } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+import { Injectable } from '@nestjs/common';
+import { Agent } from 'https';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-@Injectable({ scope: Scope.REQUEST })
+import { Todo } from './common/models/todo.model';
+@Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+
+  constructor(
+    private readonly http: HttpService
+  ) {}
+
+  getTodos(): Observable<Todo> {
+    return this.http.get('https://jsonplaceholder.typicode.com/todos').pipe(
+      map((res) => res.data)
+    );
   }
+
 }

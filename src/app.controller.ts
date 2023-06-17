@@ -1,19 +1,13 @@
-import {
-  Controller,
-  Post,
-  UploadedFiles,
-  UseInterceptors,
-} from '@nestjs/common';
-import { AnyFilesInterceptor } from '@nestjs/platform-express';
+import { Controller, Get } from '@nestjs/common';
+import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
-  @Post('/multiple')
-  @UseInterceptors(AnyFilesInterceptor())
-  uploadMultipleFiles(@UploadedFiles() files: Express.Multer.File[]) {
-    return files.map(({ fieldname, originalname }) => ({
-      fieldname,
-      originalname,
-    }));
+  constructor(private readonly appService: AppService) {}
+
+  @Get('/todos')
+  getTodos() {
+    return this.appService.getTodos();
   }
+
 }

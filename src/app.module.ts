@@ -1,18 +1,24 @@
-import { Module } from '@nestjs/common';
-import { MulterModule } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
+import { HttpModule } from '@nestjs/axios';
+import {  Module } from '@nestjs/common';
+import { Agent } from 'https';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { MulterHelper } from './core/helper/multer.helper';
-
+import {ConfigModule, ConfigService} from '@nestjs/config';
 @Module({
   imports: [
-    MulterModule.register({
-      storage: diskStorage({
-        destination: MulterHelper.destination,
-        filename: MulterHelper.filenameHandler,
-      }),
+    ConfigModule.forRoot({
+      isGlobal: true
     }),
+    HttpModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: (config: ConfigService) => ({
+        httpsAgent: new Agent({ rejectUnauthorized: false }),
+        timeout: config.get('HTTP_TIMEOUT')
+      }),
+      inject: [
+        ConfigService
+      ]
+    })
   ],
   controllers: [AppController],
   providers: [AppService],
