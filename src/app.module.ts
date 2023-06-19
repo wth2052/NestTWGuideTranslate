@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import MongoConfigFactory from '../config/mongo.config';
+import {UserModule} from './features/user/user.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import MongoConfigFactory from '../config/mongo.config';
       useFactory: async (config: ConfigService) => ({
         uri: config.get<string>('mongo.uri')
       })
-    })
+    }),
+    UserModule
   ],
   controllers: [AppController],
   providers: [AppService],

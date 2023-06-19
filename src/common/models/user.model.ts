@@ -19,3 +19,5 @@ export class User {
 	email: string;
 
 }
+
+export const UserSchema = SchemaFactory.createForClass(User);
