@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Param, Patch } from '@nestjs/common';
 import { UserService } from './user.service';
 
 @Controller('users')
@@ -8,9 +8,12 @@ export class UserController {
 		private readonly userService: UserService
 	) {}
 
-	@Get(':id')
-	findById(@Param('id') id: string) {
-		return this.userService.findById(id);
+	@Patch(':id')
+	updateById(
+		@Param('id') id: string,
+		@Body() body: any
+	) {
+		return this.userService.updateById(id, body);
 	}
 
 }
