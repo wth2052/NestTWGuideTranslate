@@ -2,6 +2,9 @@
 /dist
 /node_modules
 upload
+.env
+development.env
+development.local.env
 # Logs
 logs
 *.log

@@ -1,24 +1,19 @@
-import { HttpModule } from '@nestjs/axios';
-import {  Module } from '@nestjs/common';
-import { Agent } from 'https';
+import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import {ConfigModule, ConfigService} from '@nestjs/config';
+
+const MONGO = {
+  username: '<Example>',
+  password: encodeURIComponent('<YOUR_PASSWORD>'),
+  getUrl: function () {
+    return `mongodb+srv://${this.username}:${this.password}@<YOUR_DB>`
+  }
+};
+
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true
-    }),
-    HttpModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: (config: ConfigService) => ({
-        httpsAgent: new Agent({ rejectUnauthorized: false }),
-        timeout: config.get('HTTP_TIMEOUT')
-      }),
-      inject: [
-        ConfigService
-      ]
-    })
+    MongooseModule.forRoot(MONGO.getUrl())
   ],
   controllers: [AppController],
   providers: [AppService],
