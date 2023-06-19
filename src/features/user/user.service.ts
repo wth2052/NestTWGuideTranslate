@@ -12,8 +12,8 @@ export class UserService {
 		@InjectModel(User.name) private readonly userModel: Model<UserDocument>
 	) {}
 
-	removeById(id: string) {
-		return this.userModel.findOneAndRemove({ _id: id });
+	create(user: any) {
+		return this.userModel.create(user);
 	}
 
 }
