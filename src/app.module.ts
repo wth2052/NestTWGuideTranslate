@@ -5,7 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
-import MongoConfigFactory from './config/mongo.config';
+import MongoConfigFactory from '../config/mongo.config';
 
 @Module({
   imports: [
