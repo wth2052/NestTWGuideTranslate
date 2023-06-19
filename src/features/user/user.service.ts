@@ -12,8 +12,8 @@ export class UserService {
 		@InjectModel(User.name) private readonly userModel: Model<UserDocument>
 	) {}
 
-	create(user: any) {
-		return this.userModel.create(user);
+	updateById(id: string, data: any) {
+		return this.userModel.findByIdAndUpdate(id, data, { new: true });
 	}
 
 }

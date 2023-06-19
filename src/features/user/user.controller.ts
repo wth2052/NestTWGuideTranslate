@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param } from '@nestjs/common';
 import { UserService } from './user.service';
 
 @Controller('users')
@@ -8,9 +8,9 @@ export class UserController {
 		private readonly userService: UserService
 	) {}
 
-	@Post()
-	create(@Body() body: any) {
-		return this.userService.create(body);
+	@Get(':id')
+	findById(@Param('id') id: string) {
+		return this.userService.findById(id);
 	}
 
 }
