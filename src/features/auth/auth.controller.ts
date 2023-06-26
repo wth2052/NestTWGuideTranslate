@@ -3,11 +3,16 @@ import { AuthGuard } from '@nestjs/passport';
 
 import { Request } from 'express';
 
+import { UserDocument } from '../../common/models/user.model';
 import { CreateUserDto, UserService } from '../user';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly authService: AuthService,
+  ) {}
 
   @Post('/signup')
   signup(@Body() user: CreateUserDto) {
@@ -17,6 +22,6 @@ export class AuthController {
   @UseGuards(AuthGuard('local'))
   @Post('/signin')
   signin(@Req() request: Request) {
-    return request.user;
+    return this.authService.generateJwt(request.user as UserDocument);
   }
 }

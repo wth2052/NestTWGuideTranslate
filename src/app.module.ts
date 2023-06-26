@@ -5,15 +5,16 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './features/user';
+import { UserModule } from './features/user/user.module';
 import { AuthModule } from './features/auth/auth.module';
 
-import MongoConfigFactory from '../config/mongo.config';
+import MongoConfigFactory from './config/mongo.config';
+import SecretConfigFactory from './config/secret.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [MongoConfigFactory],
+      load: [MongoConfigFactory, SecretConfigFactory], // ConfigModule 적용
       isGlobal: true,
     }),
     MongooseModule.forRootAsync({
@@ -30,7 +31,6 @@ import MongoConfigFactory from '../config/mongo.config';
   providers: [
     AppService,
     {
-      // 전역 Pipe
       provide: APP_PIPE,
       useClass: ValidationPipe,
     },
