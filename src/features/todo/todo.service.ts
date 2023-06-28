@@ -2,22 +2,30 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class TodoService {
-
-  private todos: { id: number, title: string, description: string }[] = [
+  todos = [
     {
       id: 1,
-      title: 'Title 1',
-      description: ''
-    }
+      title: 'Ironman 13th',
+      completed: false,
+    },
+    {
+      id: 2,
+      title: 'Study NestJS',
+      completed: true,
+    },
   ];
 
-  getTodos(): { id: number, title: string, description: string }[] {
-    return this.todos;
+  findById(id: string) {
+    return this.todos.find((todo) => todo.id === Number(id));
   }
 
-  createTodo(item: { id: number, title: string, description: string }) {
-    console.log(this.todos);
-    this.todos.push(item);
+  updateById(id: string, data: any) {
+    const todo = this.findById(id);
+    return Object.assign(todo, data);
   }
 
+  removeById(id: string) {
+    const idx = this.todos.findIndex((todo) => todo.id === Number(id));
+    this.todos.splice(idx, 1);
+  }
 }
